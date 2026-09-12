@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ular Tangga — SMPN 2 Kamal</title>
+<link rel="icon" href="data:,">
+<script>
+  // Didefinisikan di <head> (bukan di game.js) supaya sudah siap
+  // sebelum satupun <img src="assets/..."> mulai dimuat browser.
+  function assetSlot(img) {
+    if (img.dataset.slotted) return;
+    img.dataset.slotted = '1';
+    const labeled = img.getAttribute('data-slot') === 'labeled';
+    const box = document.createElement('div');
+    box.className = 'asset-slot' + (labeled ? ' labeled' : '');
+    box.title = img.alt || '';
+    if (labeled && img.alt) {
+      const label = document.createElement('span');
+      label.className = 'asset-slot-label';
+      label.textContent = img.alt;
+      box.appendChild(label);
+    }
+    img.replaceWith(box);
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="app-frame">
+
+  <!-- ================= MENU UTAMA ================= -->
+  <section id="screen-menu" class="screen active">
+    <div class="ut-logo">
+      <!-- SLOT ASSET: logo-ulartangga.png -->
+      <div class="slot-logo">
+        <img src="{{ url_for('static', filename='assets/logo-ulartangga.png') }}" alt="logo-ulartangga.png" data-slot="labeled" onerror="assetSlot(this)">
+      </div>
+      <div class="school">by SMPN 2 KAMAL</div>
+    </div>
+
+    <div class="menu-card">
+      <!-- SLOT ASSET: btn-mulai.png -->
+      <button class="btn btn-asset btn-block" id="btn-mulai">
+        <img src="{{ url_for('static', filename='assets/Tombol_Play.png') }}" alt="Tombol_Play.png / MULAI" data-slot="labeled" onerror="assetSlot(this)">
+      </button>
+      <!-- SLOT ASSET: btn-cara-bermain.png -->
+      <button class="btn btn-asset btn-block" data-nav="screen-rules">
+        <img src="{{ url_for('static', filename='assets/Tombol_HTP.png') }}" alt="btn-cara-bermain.png / CARA BERMAIN" data-slot="labeled" onerror="assetSlot(this)">
+      </button>
+      <!-- SLOT ASSET: btn-pengaturan.png -->
+      <button class="btn btn-asset btn-block" data-nav="screen-settings">
+        <img src="{{ url_for('static', filename='assets/Tombol_setting.png') }}" alt="btn-pengaturan.png / PENGATURAN" data-slot="labeled" onerror="assetSlot(this)">
+      </button>
+      <!-- SLOT ASSET: btn-keluar.png -->
+      <button class="btn btn-asset btn-block" id="btn-keluar">
+        <img src="{{ url_for('static', filename='assets/Tombol_Exit.png') }}" alt="btn-keluar.png / KELUAR" data-slot="labeled" onerror="assetSlot(this)">
+      </button>
+    </div>
+    <p class="text-dim mt-14">Klik "Mulai" untuk memulai permainan.</p>
+    <a href="/admin" style="color:rgba(255,255,255,.35); font-size:11.5px; text-decoration:none; margin-top:4px;">Masuk sebagai admin</a>
+  </section>
+
+  <!-- ================= CARA BERMAIN ================= -->
+  <section id="screen-rules" class="screen">
+    <div class="back-row"><button class="btn-icon" data-nav="screen-menu">
+        <img src="{{ url_for('static', filename='assets/x.png') }}" alt="icon-kembali.png" class="slot-img" onerror="assetSlot(this)">
+      </button></div>
+    <div class="cara-bermain-wrap">
+      <img src="{{ url_for('static', filename='assets/Cara bermain.png') }}" alt="Cara Bermain" class="cara-bermain-img">
+      <button class="btn btn-gold btn-block mt-20" data-nav="screen-menu">MENGERTI</button>
+    </div>
+  </section>
+
+  <!-- ================= PENGATURAN ================= -->
+  <section id="screen-settings" class="screen">
+    <div class="back-row"><button class="btn-icon" data-nav="screen-menu">
+        <img src="{{ url_for('static', filename='assets/x.png') }}" alt="icon-kembali.png" class="slot-img" onerror="assetSlot(this)">
+      </button></div>
+    <div class="panel-card">
+      <div class="panel-head">PENGATURAN</div>
+      <div class="panel-body">
+        <div class="settings-row">
+          <label>Nama Tim Merah</label>
+          <input type="text" id="set-nama-merah" maxlength="18">
+        </div>
+        <div class="settings-row">
+          <label>Nama Tim Biru</label>
+          <input type="text" id="set-nama-biru" maxlength="18">
+        </div>
+        <div class="settings-row">
+          <div class="switch-row">
+            <label style="margin:0">Suara (efek & musik)</label>
+            <div class="switch" id="set-suara"><div class="dot"></div></div>
+          </div>
+        </div>
+        <button class="btn btn-gold btn-block mt-8" id="btn-save-settings">SIMPAN</button>
+        <button class="btn btn-outline btn-block" id="btn-reset-game">RESET PERMAINAN</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PAPAN PERMAINAN ================= -->
+  <section id="screen-board" class="screen">
+    <div class="back-row" style="justify-content: space-between; max-width:100%;">
+      <button class="btn-icon" id="btn-board-back">
+        <img src="{{ url_for('static', filename='assets/x.png') }}" alt="icon-kembali.png" class="slot-img" onerror="assetSlot(this)">
+      </button>
+      <div style="color:var(--cream); font-family:var(--font-display); font-size:15px;">Papan Permainan</div>
+      <div style="width:42px;"></div>
+    </div>
+
+    <div class="board-layout">
+      <div class="board-wrap">
+        <div class="board-grid" id="board-grid"></div>
+        <div class="legend-row">
+          <div class="item"><span class="swatch" style="background:#E9F1FF"></span>Petak Soal (40%)</div>
+          <div class="item"><span class="swatch" style="background:#FFF3D6"></span>Petak Bonus (±10%)</div>
+          <div class="item"><span class="swatch" style="background:#F2E9FF"></span>Petak Misteri (±10%)</div>
+          <div class="item"><span class="swatch" style="background:#FFE7E7"></span>Ular (mundur)</div>
+          <div class="item"><span class="swatch" style="background:#E4FBEF"></span>Tangga (maju)</div>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <!-- Avatar tim (SLOT ASSET opsional): avatar-merah.png, avatar-biru.png — diatur lewat CSS background-image, lihat style.css -->
+        <div class="team-card" id="card-merah">
+          <div class="team-avatar merah"></div>
+          <div class="team-info">
+            <div class="name" id="nama-merah-lbl">Tim Merah</div>
+            <div class="pos"><span id="pos-merah">0</span>/100</div>
+          </div>
+        </div>
+        <div class="team-card" id="card-biru">
+          <div class="team-avatar biru"></div>
+          <div class="team-info">
+            <div class="name" id="nama-biru-lbl">Tim Biru</div>
+            <div class="pos"><span id="pos-biru">0</span>/100</div>
+          </div>
+        </div>
+
+        <div class="turn-banner">Giliran <b id="turn-team-name">Tim Merah</b></div>
+
+        <div class="dice-box">
+          <!-- Dadu 3D — objek CSS asli (bukan aset gambar), lihat #4 di storyboard -->
+          <div class="dice-scene">
+            <div class="dice3d" id="dice3d">
+              <div class="face face-1">
+                <div class="pip" data-p="5">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+              </div>
+              <div class="face face-2">
+                <div class="pip" data-p="1">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+                <div class="pip" data-p="9">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+              </div>
+              <div class="face face-3">
+                <div class="pip" data-p="1">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+                <div class="pip" data-p="5">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+                <div class="pip" data-p="9">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+              </div>
+              <div class="face face-4">
+                <div class="pip" data-p="1">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+                <div class="pip" data-p="3">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="7">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="9">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+              </div>
+              <div class="face face-5">
+                <div class="pip" data-p="1">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="3">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="5">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="7">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="9">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+              </div>
+              <div class="face face-6">
+                <div class="pip" data-p="1">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="3">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="4">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="6">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="7">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div><div class="pip" data-p="9">
+                  <img src="{{ url_for('static', filename='assets/titik.png') }}" alt="icon-dadu.png" class="slot-img" onerror="assetSlot(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- SLOT ASSET: btn-lempar-dadu.png -->
+          <button class="btn btn-asset btn-lempar-asset btn-block" id="btn-lempar">
+            <img src="{{ url_for('static', filename='assets/Tombol_Play.png') }}" alt="btn-lempar-dadu.png / LEMPAR DADU" data-slot="labeled" onerror="assetSlot(this)">
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MENANG ================= -->
+  <section id="screen-menang" class="screen">
+    <div class="panel-card" style="max-width:380px; margin-top:8vh;">
+      <div class="panel-body center-col">
+        <!-- SLOT ASSET: icon-menang.png -->
+        <div class="win-badge">
+          <img src="{{ url_for('static', filename='assets/trophy.png') }}" alt="icon-menang.png" class="slot-img" onerror="assetSlot(this)">
+        </div>
+        <div class="win-title" id="win-title">Tim Merah Menang!</div>
+        <div class="win-sub" id="win-sub">Tim Merah berhasil mencapai angka 100 lebih dulu.</div>
+        <button class="btn btn-gold btn-block mt-20" id="btn-lihat-rekap">LIHAT REKAP</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REKAP ================= -->
+  <section id="screen-rekap" class="screen">
+    <div class="panel-card" style="max-width:480px; margin-top:4vh;">
+      <div class="panel-head">HASIL PERMAINAN</div>
+      <div class="panel-body">
+        <table class="recap-table">
+          <thead>
+            <tr><th style="text-align:left">Detail</th><th id="th-merah">Tim Merah</th><th id="th-biru">Tim Biru</th></tr>
+          </thead>
+          <tbody id="recap-body"></tbody>
+        </table>
+        <button class="btn btn-gold btn-block" id="btn-kembali-menu">KEMBALI KE MENU</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============= MODAL: PETAK SOAL ============= -->
+<div class="modal-overlay" id="modal-soal">
+  <div class="modal-box">
+    <div class="modal-head soal">
+      <span class="slot-icon"><img src="{{ url_for('static', filename='assets/dice.png') }}" alt="icon-soal.png" class="slot-img" onerror="assetSlot(this)"></span>
+      PERTANYAAN
+    </div>
+    <div class="modal-body">
+      <p class="q-text" id="soal-pertanyaan"></p>
+      <div class="opt-list" id="soal-opsi"></div>
+      <div class="result-banner" id="soal-hasil">
+        <div class="big" id="soal-hasil-title"></div>
+        <div class="small" id="soal-hasil-desc"></div>
+        <button class="btn btn-mint btn-block mt-14" id="soal-lanjut">LANJUT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= MODAL: PETAK BONUS ============= -->
+<div class="modal-overlay" id="modal-bonus">
+  <div class="modal-box">
+    <div class="modal-head bonus">
+      <span class="slot-icon"><img src="{{ url_for('static', filename='assets/dice.png') }}" alt="icon-bonus.png" class="slot-img" onerror="assetSlot(this)"></span>
+      PETAK BONUS
+    </div>
+    <div class="modal-body">
+      <p class="q-text" id="bonus-pertanyaan">Jawab pertanyaan ini untuk mendapatkan +5 langkah!</p>
+      <div class="opt-list" id="bonus-opsi"></div>
+      <div class="result-banner" id="bonus-hasil">
+        <div class="big" id="bonus-hasil-title"></div>
+        <div class="small" id="bonus-hasil-desc"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= MODAL: PETAK MISTERI ============= -->
+<div class="modal-overlay" id="modal-misteri">
+  <div class="modal-box">
+    <div class="modal-head misteri">
+      <span class="slot-icon"><img src="{{ url_for('static', filename='assets/dice.png') }}" alt="icon-misteri.png" class="slot-img" onerror="assetSlot(this)"></span>
+      PETAK MISTERI
+    </div>
+    <div class="modal-body">
+      <p class="q-text" style="text-align:center" id="misteri-status">Sistem sedang mengacak hadiah...</p>
+      <div class="misteri-grid">
+        <div class="misteri-card" id="misteri-serang">
+          <div class="m-ico"><img src="{{ url_for('static', filename='assets/attack.png') }}" alt="icon-mundurkan.png" class="slot-img" onerror="assetSlot(this)"></div>
+          <div class="m-title">Mundurkan Lawan</div>
+          <div class="m-desc">Lawan mundur 3 langkah</div>
+        </div>
+        <div class="misteri-card" id="misteri-shield">
+          <div class="m-ico"><img src="{{ url_for('static', filename='assets/shield.png') }}" alt="icon-shield.png" class="slot-img" onerror="assetSlot(this)"></div>
+          <div class="m-title">Shield</div>
+          <div class="m-desc">Lindungi dari efek negatif berikutnya</div>
+        </div>
+      </div>
+      <div class="result-banner" id="misteri-hasil">
+        <div class="big" id="misteri-hasil-title"></div>
+        <div class="small" id="misteri-hasil-desc"></div>
+        <button class="btn btn-mint btn-block mt-14" id="misteri-lanjut">LANJUT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Audio: backsound & efek klik langkah pion. Volume diredam supaya tidak berlebihan;
+     browser modern butuh 1 interaksi klik dulu sebelum audio bisa main (kebijakan autoplay),
+     makanya backsound baru mulai begitu tombol MULAI ditekan. -->
+<audio id="bgm-crazyfrog" src="{{ url_for('static', filename='assets/bgm-crazy-frog.mp3') }}" loop preload="auto"></audio>
+<audio id="sfx-klik" src="{{ url_for('static', filename='assets/audio_klik_kayu.mp3') }}" preload="auto"></audio>
+
+<script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>

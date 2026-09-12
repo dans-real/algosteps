@@ -1,0 +1,134 @@
+[
+  {
+    "id": "s1",
+    "pertanyaan": "Urutan langkah-langkah yang sistematis untuk menyelesaikan suatu masalah disebut ...",
+    "opsi": [
+      "Variabel",
+      "Algoritma",
+      "Program",
+      "Data"
+    ],
+    "jawaban": 1
+  },
+  {
+    "id": "s2",
+    "pertanyaan": "Dalam Python, perintah if digunakan untuk ...",
+    "opsi": [
+      "Mengulang perintah",
+      "Menyimpan data",
+      "Membuat percabangan berdasarkan kondisi",
+      "Menghapus data"
+    ],
+    "jawaban": 2
+  },
+  {
+    "id": "s3",
+    "pertanyaan": "Apa arti dari operator == dalam Python ...",
+    "opsi": [
+      "Memberikan nilai",
+      "Tidak sama dengan",
+      "Sama dengan",
+      "Lebih besar dari"
+    ],
+    "jawaban": 2
+  },
+  {
+    "id": "s4",
+    "pertanyaan": "Perintah for biasanya digunakan untuk ...",
+    "opsi": [
+      "Melakukan perulangan",
+      "Membuat variabel",
+      "Menghentikan program",
+      "Membandingkan dua langkah"
+    ],
+    "jawaban": 0
+  },
+  {
+    "id": "s5",
+    "pertanyaan": "Fungsi input() dalam Python digunakan untuk ...",
+    "opsi": [
+      "Menampilkan hasil",
+      "Menerima masukan dari pengguna",
+      "Mengulang program",
+      "Membuat kondisi"
+    ],
+    "jawaban": 1
+  },
+  {
+    "id": "s6",
+    "pertanyaan": "Kemampuan memecah masalah besar menjadi beberapa bagian kecil disebut ...",
+    "opsi": [
+      "Dekomposisi",
+      "Enkripsi",
+      "Kompilasi",
+      "Algoritma"
+    ],
+    "jawaban": 0
+  },
+  {
+    "id": "s7",
+    "pertanyaan": "Contoh algoritma dalam kehidupan sehari-hari adalah ...",
+    "opsi": [
+      "Menonton video tanpa urutan",
+      "Mengikuti langkah-langkah membuat mi instan",
+      "Membuka hp secara acak",
+      "Menggambar tanpa rencana"
+    ],
+    "jawaban": 1
+  },
+  {
+    "id": "s8",
+    "pertanyaan": "Tujuan utama membuat algoritma adalah ...",
+    "opsi": [
+      "Membuat masalah semakin rumit",
+      "Menyelesaikan masalah secara terstruktur",
+      "Menghapus semua data",
+      "Memperbanyak kode"
+    ],
+    "jawaban": 1
+  },
+  {
+    "id": "s9",
+    "pertanyaan": "Apa yang terjadi jika kondisi pada if bernilai False dan terdapat else ...",
+    "opsi": [
+      "Program berhenti",
+      "Perintah pada if tetap dijalankan",
+      "Perintah pada else dijalankan",
+      "Program mengulang dari awal"
+    ],
+    "jawaban": 2
+  },
+  {
+    "id": "s10",
+    "pertanyaan": "Manakah yang bukan bagian utama dari berpikir komputasional ...",
+    "opsi": [
+      "Dekomposisi",
+      "Pengenalan pola",
+      "Abstraksi",
+      "Menebak secara acak"
+    ],
+    "jawaban": 3
+  },
+  {
+    "id": "s11",
+    "pertanyaan": "Jika kamu ingin mencari rute tercepat menuju sekolah, informasi yang penting adalah ...",
+    "opsi": [
+      "Warna rumah di sepanjang jalan",
+      "Jarak dan kondisi jalan",
+      "Nama semua orang yang lewat",
+      "Bentuk awan di langit"
+    ],
+    "jawaban": 1
+  },
+  {
+    "id": "s12",
+    "pertanyaan": "Mengelompokkan benda menjadi makanan, minuman, dan alat tulis berdasarkan jenisnya merupakan contoh ...",
+    "opsi": [
+      "Klasifikasi",
+      "Debugging",
+      "Perulangan",
+      "Abstraksi"
+    ],
+    "jawaban": 0
+  }
+]
