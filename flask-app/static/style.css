@@ -1,0 +1,630 @@
+/* ============================================================
+   ULAR TANGGA SMPN 2 KAMAL — style.css
+   Palet: navy dasar, emas aksen, merah/biru tim, mint sukses
+   Font: Baloo 2 (display) + Poppins (body)
+   ============================================================ */
+
+:root {
+  --navy-900: #0E1630;
+  --navy-800: #16214A;
+  --navy-700: #1E2C5E;
+  --navy-600: #2A3B78;
+  --gold: #FFB84C;
+  --gold-dark: #E89A2A;
+  --merah: #E5484D;
+  --merah-dark: #C43A3F;
+  --biru: #3D8BFD;
+  --biru-dark: #2C6BD1;
+  --mint: #34C795;
+  --mint-dark: #23A87B;
+  --ungu: #9B6CF0;
+  --cream: #FFF8EC;
+  --cream-dim: #F1E9D8;
+  --ink: #1C1F2E;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+  --shadow-card: 0 10px 30px rgba(8, 12, 30, 0.35);
+  --font-display: 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Poppins', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  width: 100%; min-height: 100%;
+  background: var(--navy-900);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% -10%, rgba(36,49,107,.55) 0%, transparent 45%),
+    radial-gradient(circle at 110% 10%, rgba(42,31,92,.55) 0%, transparent 40%),
+    url('assets/homescreen.jpg') center/cover no-repeat,
+    var(--navy-900);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; }
+p { margin: 0; }
+button { font-family: var(--font-body); cursor: pointer; border: none; }
+::selection { background: var(--gold); color: var(--navy-900); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---------- App shell ---------- */
+.app-frame {
+  width: 100%;
+  max-width: 1180px;
+  min-height: 100vh;
+  padding: 20px 18px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen { display: none; width: 100%; animation: fadeUp .35s ease; }
+.screen.active { display: flex; flex-direction: column; align-items: center; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Reusable buttons ---------- */
+.btn {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: .2px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  color: var(--cream);
+  box-shadow: 0 4px 0 rgba(0,0,0,.25);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.25); }
+.btn-gold { background: linear-gradient(180deg, var(--gold), var(--gold-dark)); color: var(--navy-900); }
+.btn-mint { background: linear-gradient(180deg, #47DBAA, var(--mint-dark)); color: var(--navy-900); }
+.btn-outline { background: transparent; box-shadow: inset 0 0 0 2px rgba(255,255,255,.35); }
+.btn-danger { background: linear-gradient(180deg, #F27077, var(--merah-dark)); }
+.btn-sm { padding: 9px 18px; font-size: 14px; }
+.btn-block { width: 100%; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; transform: none !important; }
+
+.btn-icon {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.08); color: var(--cream); font-size: 18px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+  overflow: hidden;
+}
+.btn-icon .asset-slot { border-radius: 50%; }
+
+/* ============================================================
+   ASSET SLOT — kotak siap-isi untuk aset desain kalian.
+   Kalau <img> gagal dimuat (file belum ada), JS (assetSlot() di
+   game.js) mengganti tampilannya jadi kotak putus-putus ini.
+   Begitu file aset dengan nama yang sesuai ditaruh di
+   static/assets/, tampilan otomatis berubah tanpa edit kode.
+   ============================================================ */
+.asset-slot {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px dashed rgba(140,140,165,.55);
+  background: rgba(140,140,165,.10);
+  border-radius: inherit;
+  box-sizing: border-box;
+}
+.asset-slot.labeled { flex-direction: column; gap: 2px; padding: 4px; }
+.asset-slot-label {
+  font-family: var(--font-body); font-size: 9.5px; line-height: 1.3;
+  color: currentColor; opacity: .7; text-align: center; word-break: break-word;
+}
+.slot-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* Tombol berbasis aset (Mulai, Cara Bermain, Pengaturan, Keluar, Lempar Dadu) */
+.btn-asset {
+  padding: 0; overflow: hidden; background: transparent; box-shadow: none;
+  height: 120px;
+}
+.btn-asset img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.btn-asset .asset-slot { color: var(--cream); }
+.btn-asset:active { transform: translateY(2px); }
+
+/* ---------- Logo (SLOT ASSET: logo-ulartangga.png) ---------- */
+/* Logo Ular Tangga SMPN 2 Kamal (opsional, bisa diganti dengan logo sekolah sendiri) */
+.ut-logo { display: flex; flex-direction: column; align-items: center; gap: 0px; } /* Logo + teks sekolah */
+.slot-logo img { width: 80%; margin-left: 10%; /* cara biar agak ke kanan */ object-fit: contain; display: block; }
+.ut-logo .school {
+  margin-top: 2px; font-size: 12px; color: var(--cream); opacity: .99;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 0px;
+}
+
+/* ============================================================
+   MENU UTAMA (background SLOT ASSET: bg-menu.jpg, opsional)
+   ============================================================ */
+#screen-menu {
+  padding-top: 18px;
+  width: 100%; border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(14,22,48,.35), rgba(14,22,48,.65)),
+    url('assets/bg-menu.png') center/cover no-repeat;
+}
+#screen-menu.active { padding: 28px 12px 20px; }
+
+.menu-card {
+  width: 100%; max-width: 380px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--radius-lg);
+  padding: 26px 22px;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow: var(--shadow-card);
+  margin-top: 18px;
+}
+
+/* ============================================================
+   CARA BERMAIN
+   ============================================================ */
+.panel-card {
+  width: 200%; max-width: 460px;
+  background: var(--cream);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.panel-card .panel-head {
+  background: var(--navy-800); color: var(--cream);
+  padding: 16px 20px; font-family: var(--font-display);
+  font-size: 20px; text-align: center;
+}
+.panel-card .panel-body { padding: 22px 24px 26px; }
+
+.rules-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.rules-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; }
+.rules-list .num {
+  flex: none; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--gold); color: var(--navy-900); font-family: var(--font-display);
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+
+.back-row { width: 100%; max-width: 460px; display: flex; justify-content: flex-start; margin-bottom: 14px; }
+
+.cara-bermain-wrap {
+  width: 100%; max-width: 460px;
+  display: flex; flex-direction: column; gap: 4px; align-items: stretch;
+}
+.cara-bermain-img {
+  width: 100%; height: auto; display: block;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* ============================================================
+   PAPAN PERMAINAN
+   ============================================================ */
+#screen-board { align-items: stretch; }
+.board-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 18px;
+  width: 100%;
+}
+@media (max-width: 860px) {
+  .board-layout { grid-template-columns: 1fr; }
+}
+
+.board-wrap {
+  background: url('assets/background gameplay.jpg') center/cover no-repeat, var(--cream);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 3px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: var(--cream-dim);
+  border-radius: var(--radius-md);
+  padding: 6px;
+}
+
+.tile {
+  position: relative;
+  background: #fff;
+  border-radius: 6px;
+  display: flex; align-items: flex-start; justify-content: flex-start;
+  font-size: 9px; font-weight: 600; color: #8b8b9a;
+  padding: 3px 4px;
+  overflow: hidden;
+}
+.tile.t-soal { background: #E9F1FF; color: #2C5FBF; }
+.tile.t-bonus { background: #FFF3D6; color: #B67E00; }
+.tile.t-misteri { background: #F2E9FF; color: #7A3FE0; }
+.tile.t-ular { background: #FFE7E7; color: #C43A3F; }
+.tile.t-tangga { background: #E4FBEF; color: #1D9A6C; }
+.tile.t-start { background: var(--navy-800); color: var(--cream); }
+.tile.t-finish { background: var(--gold); color: var(--navy-900); }
+
+/* Ikon petak (SLOT ASSET, opsional): icon-soal.png, icon-bonus.png, icon-misteri.png,
+   petak-tangga.png, petak-ular.png, icon-start.png, icon-finish.png.
+   Kalau file belum ada, ikon cuma tidak tampak — warna latar petak tetap
+   menandai jenisnya (lihat legenda di bawah papan). */
+.tile .ico {
+  position: absolute; right: 2px; bottom: 1px; width: 12px; height: 12px;
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+}
+.tile.t-soal .ico { background-image: url('assets/quest.png'); }
+.tile.t-bonus .ico { background-image: url('assets/bonusquest.png'); }
+.tile.t-misteri .ico { background-image: url('assets/dice.png'); }
+.tile.t-ular .ico { background-image: url('assets/petak-ular.png'); }
+.tile.t-tangga .ico { background-image: url('assets/petak-tangga.png'); }
+.tile.t-start .ico { background-image: url('assets/bendera start.png'); }
+.tile.t-finish .ico { background-image: url('assets/bendera finish.png'); }
+
+.pawns-on-tile { position: absolute; left: 2px; bottom: 2px; display: flex; gap: 2px; z-index: 2; }
+/* Pion (SLOT ASSET, opsional): pionmerah.png, pionbiru.png.
+   Tanpa aset, tampil sebagai cincin kosong warna tim supaya tetap terlihat di papan. */
+.pawn {
+  width: 18px; height: 18px; border-radius: 50%;
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+  transition: all .25s ease;
+  box-sizing: border-box;
+}
+.pawn.merah { background-image: url('assets/pionmerah.png'); }
+.pawn.biru { background-image: url('assets/pionbiru.png'); }
+
+.legend-row {
+  margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px 16px;
+  font-size: 11px; color: #f9f9fc; align-items: center; justify-content: center;
+}
+.legend-row .item { display: flex; align-items: center; gap: 5px; }
+.legend-row .swatch { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+
+/* Sidebar */
+.sidebar { display: flex; flex-direction: column; gap: 14px; }
+.team-card {
+  background: rgba(255,255,255,.05); border-radius: var(--radius-md);
+  padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+  border: 2px solid transparent; transition: border-color .2s ease, background .2s ease;
+}
+.team-card.turn { border-color: var(--gold); background: rgba(255,184,76,.1); }
+/* Avatar tim (SLOT ASSET, opsional): avatar-merah.png, avatar-biru.png.
+   Tanpa aset, tampil sebagai cincin kosong warna tim. */
+.team-avatar {
+  width: 44px; height: 44px; border-radius: 50%; flex: none;
+  background-size: cover; background-position: center;
+  box-sizing: border-box;
+}
+.team-avatar.merah { background-image: url('assets/pionmerah.png'); }
+.team-avatar.biru { background-image: url('assets/pionbiru.png'); }
+.team-info { color: var(--cream); }
+.team-info .name { font-family: var(--font-display); font-size: 15px; }
+.team-info .pos { font-size: 12px; opacity: .7; }
+
+.turn-banner {
+  text-align: center; color: var(--cream); font-family: var(--font-display);
+  font-size: 15px; padding: 8px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.05);
+}
+.turn-banner b { color: var(--gold); }
+
+.dice-box {
+  background: rgba(255,255,255,.05); border-radius: var(--radius-md);
+  padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+
+/* ---------- Dadu 3D (objek asli, BUKAN slot aset — dibuat murni CSS) ---------- */
+.dice-scene {
+  width: 76px; height: 76px;
+  perspective: 500px;
+}
+.dice3d {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(.34,1.56,.64,1);
+  transform: rotateX(-18deg) rotateY(28deg);
+}
+.dice3d .face {
+  position: absolute; width: 76px; height: 76px;
+  background: linear-gradient(155deg, #ffffff, #eef0f6);
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 2px 6px rgba(0,0,0,.15);
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+  padding: 12px; box-sizing: border-box;
+}
+.dice3d .pip { border-radius: 50%; background: transparent; margin: auto; width: 10px; height: 10px; }
+.dice3d .pip.on { background: var(--navy-800); box-shadow: inset 0 1px 1px rgba(0,0,0,.3); }
+
+/* Posisi pip sesuai data-p, mengikuti layout dadu standar (grid 3x3):
+   1 2 3
+   4 5 6
+   7 8 9  */
+.dice3d .pip[data-p="1"] { grid-row: 1; grid-column: 1; }
+.dice3d .pip[data-p="2"] { grid-row: 1; grid-column: 2; }
+.dice3d .pip[data-p="3"] { grid-row: 1; grid-column: 3; }
+.dice3d .pip[data-p="4"] { grid-row: 2; grid-column: 1; }
+.dice3d .pip[data-p="5"] { grid-row: 2; grid-column: 2; }
+.dice3d .pip[data-p="6"] { grid-row: 2; grid-column: 3; }
+.dice3d .pip[data-p="7"] { grid-row: 3; grid-column: 1; }
+.dice3d .pip[data-p="8"] { grid-row: 3; grid-column: 2; }
+.dice3d .pip[data-p="9"] { grid-row: 3; grid-column: 3; }
+.dice3d .pip img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.dice3d .face-1 { transform: rotateY(0deg)    translateZ(38px); }
+.dice3d .face-2 { transform: rotateY(90deg)   translateZ(38px); }
+.dice3d .face-3 { transform: rotateX(-90deg)  translateZ(38px); }
+.dice3d .face-4 { transform: rotateX(90deg)   translateZ(38px); }
+.dice3d .face-5 { transform: rotateY(-90deg)  translateZ(38px); }
+.dice3d .face-6 { transform: rotateY(180deg)  translateZ(38px); }
+
+.toast {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-140%);
+  background: var(--navy-800); color: var(--cream); padding: 12px 22px;
+  border-radius: 999px; font-family: var(--font-display); font-size: 14px;
+  box-shadow: var(--shadow-card); z-index: 300; transition: transform .3s ease;
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.mint { background: var(--mint-dark); }
+.toast.merah { background: var(--merah-dark); }
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(9,13,28,.72);
+  display: none; align-items: center; justify-content: center; z-index: 200; padding: 16px;
+  backdrop-filter: blur(2px);
+}
+.modal-overlay.show { display: flex; animation: fadeUp .25s ease; }
+.modal-box {
+  width: 100%; max-width: 420px; background: var(--cream);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden;
+}
+.modal-head {
+  padding: 16px 22px; text-align: center; font-family: var(--font-display);
+  font-size: 18px; color: var(--navy-900); display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.modal-head.soal { background: #E9F1FF; }
+.modal-head.bonus { background: #FFF3D6; }
+.modal-head.misteri { background: #F2E9FF; }
+.modal-head .slot-icon { width: 22px; height: 22px; flex: none; }
+.modal-head .slot-icon .asset-slot { border-radius: 6px; }
+.modal-body { padding: 20px 22px 24px; }
+
+.q-text { font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 16px; }
+.opt-list { display: flex; flex-direction: column; gap: 9px; }
+.opt-btn {
+  text-align: left; background: #fff; border-radius: var(--radius-sm);
+  padding: 11px 14px; font-size: 14px; box-shadow: inset 0 0 0 1.5px #E1E1EC;
+  display: flex; gap: 10px; align-items: center; transition: box-shadow .15s ease, background .15s ease;
+}
+.opt-btn .letter {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--navy-800); color: #fff;
+  font-size: 11px; display: flex; align-items: center; justify-content: center; flex: none;
+}
+.opt-btn:hover { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.opt-btn.correct { background: #E4FBEF; box-shadow: inset 0 0 0 2px var(--mint-dark); }
+.opt-btn.wrong { background: #FFE7E7; box-shadow: inset 0 0 0 2px var(--merah-dark); }
+.opt-btn[disabled] { cursor: default; }
+
+.result-banner {
+  margin-top: 16px; padding: 14px 16px; border-radius: var(--radius-sm);
+  text-align: center; display: none;
+}
+.result-banner.show { display: block; animation: fadeUp .25s ease; }
+.result-banner.ok { background: #E4FBEF; color: var(--mint-dark); }
+.result-banner.bad { background: #FFE7E7; color: var(--merah-dark); }
+.result-banner .big { font-family: var(--font-display); font-size: 17px; }
+.result-banner .small { font-size: 13px; opacity: .85; margin-top: 2px; }
+
+.misteri-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.misteri-card {
+  background: #fff; border-radius: var(--radius-md); padding: 16px 10px; text-align: center;
+  box-shadow: inset 0 0 0 1.5px #E1E1EC; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.misteri-card:hover { box-shadow: inset 0 0 0 2px var(--gold); }
+.misteri-card .m-ico { width: 40px; height: 40px; }
+.misteri-card .m-ico .asset-slot { border-radius: 10px; }
+.misteri-card .m-title { font-family: var(--font-display); font-size: 13.5px; }
+.misteri-card .m-desc { font-size: 11px; color: #6a6a7a; }
+
+/* Petak Misteri sekarang diacak sistem, bukan dipilih pemain */
+.misteri-card.shuffling { animation: misteriPulse .8s ease-in-out infinite; }
+@keyframes misteriPulse {
+  0%, 100% { box-shadow: inset 0 0 0 1.5px #E1E1EC; opacity: .75; }
+  50% { box-shadow: inset 0 0 0 2px var(--gold); opacity: 1; }
+}
+.misteri-card.chosen { box-shadow: inset 0 0 0 3px var(--gold); transform: scale(1.04); }
+.misteri-card.not-chosen { opacity: .35; filter: grayscale(55%); }
+#misteri-status { transition: opacity .2s ease; }
+
+/* Menang / Rekap (SLOT ASSET, opsional: icon-menang.png) */
+.win-badge {
+  width: 92px; height: 92px; border-radius: 50%; margin: 0 auto 14px;
+  background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 20px rgba(255,184,76,.4);
+  padding: 22px; box-sizing: border-box;
+}
+.win-badge .asset-slot { border-color: rgba(0,0,0,.25); }
+.win-title { text-align: center; font-family: var(--font-display); font-size: 24px; color: var(--navy-900); }
+.win-sub { text-align: center; font-size: 13.5px; color: #6a6a7a; margin-top: 6px; }
+
+.recap-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.recap-table th, .recap-table td { padding: 10px 8px; font-size: 13px; text-align: center; }
+.recap-table thead th { background: var(--navy-800); color: var(--cream); font-family: var(--font-display); font-weight: 400; }
+.recap-table thead th:first-child { border-radius: 8px 0 0 8px; }
+.recap-table thead th:last-child { border-radius: 0 8px 8px 0; }
+.recap-table tbody tr:nth-child(odd) { background: #F4F0E4; }
+.recap-table td.label { text-align: left; color: #6a6a7a; }
+
+.confetti-piece {
+  position: fixed; top: -10px; width: 8px; height: 14px; z-index: 250; border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  to { transform: translateY(110vh) rotate(540deg); opacity: .3; }
+}
+
+/* ============================================================
+   PENGATURAN
+   ============================================================ */
+.settings-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.settings-row label { font-size: 12.5px; color: #6a6a7a; font-weight: 600; }
+.settings-row input[type=text] {
+  padding: 11px 14px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1.5px #E1E1EC;
+  border: none; font-size: 14px; font-family: var(--font-body);
+}
+.switch-row { display: flex; align-items: center; justify-content: space-between; }
+.switch { width: 44px; height: 24px; border-radius: 999px; background: #E1E1EC; position: relative; transition: background .2s ease; }
+.switch.on { background: var(--mint-dark); }
+.switch .dot { width: 18px; height: 18px; border-radius: 50%; background: #fff; position: absolute; top: 3px; left: 3px; transition: left .2s ease; }
+.switch.on .dot { left: 23px; }
+
+/* ============================================================
+   ADMIN
+   ============================================================ */
+.admin-topbar {
+  width: 100%; max-width: 900px; display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 4px 18px; color: var(--cream);
+}
+.admin-topbar .title { font-family: var(--font-display); font-size: 20px; display: flex; align-items: center; gap: 10px; }
+.admin-shell { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 16px; }
+
+.login-card {
+  width: 100%; max-width: 360px; margin: 8vh auto 0; background: var(--cream);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 30px 26px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.login-card .hint { font-size: 12px; color: #8b8b9a; text-align: center; }
+
+.tab-row { display: flex; gap: 8px; }
+.tab-btn {
+  padding: 10px 18px; border-radius: 999px; background: rgba(255,255,255,.06); color: var(--cream);
+  font-size: 13.5px; font-family: var(--font-display);
+}
+.tab-btn.active { background: var(--gold); color: var(--navy-900); }
+
+.admin-card { background: var(--cream); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 20px 22px; }
+.admin-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.admin-card-head h3 { font-size: 17px; }
+
+.q-row {
+  display: flex; align-items: center; gap: 10px; padding: 12px 10px; border-radius: var(--radius-sm);
+  border-bottom: 1px solid #EDE7D8;
+}
+.q-row:last-child { border-bottom: none; }
+.q-row .q-num { width: 24px; height: 24px; border-radius: 50%; background: var(--navy-800); color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; flex: none; }
+.q-row .q-body { flex: 1; min-width: 0; }
+.q-row .q-body .q-p { font-size: 13.5px; font-weight: 600; }
+.q-row .q-body .q-a { font-size: 12px; color: var(--mint-dark); }
+.q-row .q-actions { display: flex; gap: 6px; flex: none; }
+.icon-btn {
+  width: 32px; height: 32px; border-radius: 8px; background: #fff; box-shadow: inset 0 0 0 1.5px #E1E1EC;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.icon-btn:hover { box-shadow: inset 0 0 0 1.5px var(--gold); }
+
+.form-grid { display: flex; flex-direction: column; gap: 12px; }
+.form-grid label { font-size: 12.5px; color: #6a6a7a; font-weight: 600; display: block; margin-bottom: 5px; }
+.form-grid input[type=text], .form-grid textarea {
+  width: 100%; padding: 11px 14px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1.5px #E1E1EC;
+  border: none; font-size: 14px; font-family: var(--font-body); resize: vertical;
+}
+.opt-input-row { display: flex; align-items: center; gap: 8px; }
+.opt-input-row input[type=radio] { accent-color: var(--mint-dark); width: 18px; height: 18px; flex: none; }
+.opt-input-row input[type=text] { flex: 1; }
+.form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
+
+.empty-state { text-align: center; padding: 30px 10px; color: #8b8b9a; font-size: 13.5px; }
+
+/* ---------- Utility ---------- */
+.hidden { display: none !important; }
+.center-col { display: flex; flex-direction: column; align-items: center; }
+.mt-8 { margin-top: 8px; } .mt-14 { margin-top: 14px; } .mt-20 { margin-top: 20px; }
+.text-dim { color: rgba(255,255,255,.6); font-size: 13px; text-align: center; }
+
+@media (max-width: 480px) {
+  .slot-logo { width: 210px; height: 78px; }
+  .misteri-grid { grid-template-columns: 1fr; }
+  .pawn { width: 15px; height: 15px; }
+}
+/* ============================================================
+   LANDSCAPE MOBILE — papan kiri, kontrol kanan, dipadatkan
+   supaya muat tanpa scroll di HP yang dimiringkan.
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app-frame { padding: 8px 12px 10px; }
+
+  /* paksa tetap 2 kolom meski lebar < 860px (menang atas rule sebelumnya) */
+  .board-layout {
+    grid-template-columns: minmax(0, 1fr) 190px;
+    gap: 10px;
+  }
+
+  #screen-board .back-row { margin-bottom: 6px; }
+  .btn-icon { width: 32px; height: 32px; font-size: 14px; }
+
+  .board-wrap {
+    padding: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .board-grid {
+    width: auto;
+    height: min(76vh, 60vw);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+  .legend-row { display: none; } /* hemat tempat vertikal */
+
+  .sidebar { gap: 6px; max-height: 84vh; overflow-y: auto; }
+  .team-card { padding: 6px 8px; gap: 8px; }
+  .team-avatar { width: 30px; height: 30px; }
+  .team-info .name { font-size: 12.5px; }
+  .team-info .pos { font-size: 10.5px; }
+  .turn-banner { padding: 5px; font-size: 12px; }
+
+  .dice-box { padding: 8px; gap: 6px; }
+  .dice-scene, .dice3d, .dice3d .face { width: 52px; height: 52px; }
+  .dice3d .face { padding: 7px; }
+  .dice3d .face-1 { transform: rotateY(0deg)   translateZ(26px); }
+  .dice3d .face-2 { transform: rotateY(90deg)  translateZ(26px); }
+  .dice3d .face-3 { transform: rotateX(-90deg) translateZ(26px); }
+  .dice3d .face-4 { transform: rotateX(90deg)  translateZ(26px); }
+  .dice3d .face-5 { transform: rotateY(-90deg) translateZ(26px); }
+  .dice3d .face-6 { transform: rotateY(180deg) translateZ(26px); }
+  .btn-asset { height: 38px; }
+  .btn-lempar-asset { height: 34px; max-width: 170px; }
+}
+
+/* Kustom khusus tombol Lempar Dadu — hidup di sidebar sempit, beda konteks dari tombol menu */
+.btn-lempar-asset {
+  height: 100px;
+  max-width: 240px;
+  margin: 0 auto;
+}
+.board-grid { position: relative; }
+#board-connectors {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+}
+.connector-img {
+  position: absolute; top: 0; left: 0;
+  transform-origin: center center;
+  object-fit: fill;
+}
